@@ -82,18 +82,33 @@ Example
     ))
 
 
+Output
+======
+
+for each request you make, you can choose between the different outputs :
+
+    * json
+    * csv (the output is an instance from CSV Reader Objects `DictReader`_)
+    * xml
+
+
+.. warning:: Depend on the option you will choose, Please refer to the `original website`_ to see the context of each output.
+
+
+.. _DictReader: https://docs.python.org/2/library/csv.html#csv.DictReader
+.. _original website: https://www.zipcodeapi.com/API
 
 Contributing
 ============
 
-To contribute to Py ZipCodeAPI `create a fork`_ on GitHub. Clone your fork, make some changes, and submit a pull request.
+To contribute to PyZipCodeAPI `create a fork`_ on GitHub. Clone your fork, make some changes, and submit a pull request.
 
 .. _create a fork: https://github.com/medbenmakhlouf/pyzipcodeapi
 
 Issues
 ======
 
-Use the GitHub `issue tracker`_ for django-storages to submit bugs, issues, and feature requests.
+Use the GitHub `issue tracker`_ for PyZipCodeAPI to submit bugs, issues, and feature requests.
 
 .. _issue tracker: https://github.com/medbenmakhlouf/pyzipcodeapi/issues
 
