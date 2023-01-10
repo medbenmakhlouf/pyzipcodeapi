@@ -197,7 +197,7 @@ class ZipCodeApiV2:
     def radius(
         self,
         zip_code: str,
-        distance: int,
+        distance: float,
         minimal: bool = False,
         units: DistanceUnitEnum = DistanceUnitEnum.KM,
     ) -> Radius | DictReader | Element:
@@ -210,7 +210,7 @@ class ZipCodeApiV2:
 
     def multi_radius(
         self,
-        distance: int,
+        distance: float,
         zip_codes: list[str] | None = None,
         addresses: list[str] | None = None,
         units: DistanceUnitEnum = DistanceUnitEnum.KM,
@@ -231,7 +231,7 @@ class ZipCodeApiV2:
     def match_close(
         self,
         zip_codes: list[str],
-        distance: int,
+        distance: float,
         units: DistanceUnitEnum = DistanceUnitEnum.KM,
     ) -> list[MatchClose] | DictReader | Element:
         """match-close.<format>/<zip_codes>/<distance>/<units>"""
@@ -252,9 +252,7 @@ class ZipCodeApiV2:
         self._get("multi-info", f"{','.join(zip_codes)}/{units}")
         return self._parse_response()
 
-    def city_zip_codes(
-        self, city: str, state: str
-    ) -> ZipCode | DictReader | Element:
+    def city_zip_codes(self, city: str, state: str) -> ZipCode | DictReader | Element:
         """
         US: city-zips.<format>/<city>/<state>
         CA: city-postal-codes.<format>/<city>/<province>
@@ -265,5 +263,32 @@ class ZipCodeApiV2:
 
     def state_zip_codes(self, state: str) -> ZipCode | DictReader | Element:
         """state-zips.<format>/<state>"""
-        self._get("state-zips", f"{quote_plus(state)}")
+        self._get("state-zips", quote_plus(state))
         return self._parse_response(data_class=ZipCode)
+
+    def radius_sql(
+        self,
+        lat: float,
+        long: float,
+        distance: float,
+        lat_long_units: GeoUnitEnum = GeoUnitEnum.DEGREES,
+        units: DistanceUnitEnum = DistanceUnitEnum.KM,
+        lat_field_name: str = "lat",
+        long_field_name: str = "long",
+        precision: int = 1,
+    ) -> Radius | DictReader | Element:
+        """radius-sql.<format>/<lat>/<long>/<lat_long_units>/<distance>/<units>/<lat_field_name>/
+        <long_field_name>/<precision>"""
+        assert precision <= 16
+        args = [
+            str(lat),
+            str(long),
+            lat_long_units,
+            str(distance),
+            units,
+            lat_field_name,
+            long_field_name,
+            str(precision),
+        ]
+        self._get("radius-sql", "/".join(args))
+        return self._parse_response()

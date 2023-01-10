@@ -1,14 +1,10 @@
-from pyzipcodeapi.api import ZipCodeApi, ZipCodeApiV2
+from pyzipcodeapi.api import ZipCodeApiV2
 from pyzipcodeapi.enums import CountryEnum, DistanceUnitEnum, FormatEnum, GeoUnitEnum
 
 API_KEY = "DemoOnly00yDUhTAzyzlwpXrk6SuiuvD80IAvhCJowPjA5Cqgz9vb7QyIyzDE77r"
 
 if __name__ == "__main__":
     # set different inputs
-    f = "json"
-    u = "km"
-    ou = "degrees"
-    obj = ZipCodeApi(API_KEY)
     # V2
     f2 = FormatEnum.JSON
     ud = DistanceUnitEnum.KM
@@ -53,14 +49,14 @@ if __name__ == "__main__":
     # https://www.zipcodeapi.com/rest/<api_key>/radius-sql.<format>/<lat>/<long>/<lat_long_units>/<distance>/<units>/
     # <lat_field_name>/<long_field_name>/<precision>
     print(
-        obj.get("radius-sql", f).filter(
-            lat="37.722223",
-            long="-122.484048",
-            lat_long_units=ou,
-            distance="5",
-            units=u,
+        zca.radius_sql(
+            lat=37.722223,
+            long=-122.484048,
+            lat_long_units=ug,
+            distance=5,
+            units=ud,
             lat_field_name="lat",
             long_field_name="long",
-            precision="4",
+            precision=4,
         )
     )
