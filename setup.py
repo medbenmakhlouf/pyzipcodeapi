@@ -16,6 +16,7 @@ setup(
     version=__version__,
     description="Py ZipCodeApi will make it easier for you to use the different options in ZipCodeAPI",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/medbenmakhlouf/pyzipcodeapi",
     download_url="https://github.com/medbenmakhlouf/pyzipcodeapi/tarball/" + __version__,
     license="BSD",
