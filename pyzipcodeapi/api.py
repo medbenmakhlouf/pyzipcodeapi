@@ -1,12 +1,13 @@
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
-
-import csv
+from csv import DictReader
+from http.client import HTTPSConnection
+from io import StringIO
+from json import loads
+from xml.etree.ElementTree import Element, fromstring
 
 import requests
 
+from pyzipcodeapi.dataclass import Distance, Error
+from pyzipcodeapi.enums import FormatEnum, UnitEnum, CountryEnum
 from pyzipcodeapi.options import OPTIONS
 
 BASE_URL = "https://www.zipcodeapi.com/rest/{api_key}/{option}.{format}/"
@@ -62,7 +63,7 @@ class ZipCodeApiRequest:
             return request.json()
         elif self.output_format == "csv":
             f = StringIO(request.text)
-            reader = csv.DictReader(f, delimiter=",")
+            reader = DictReader(f, delimiter=",")
             return reader
         return request.text
 
@@ -94,3 +95,55 @@ class ZipCodeApi:
             api_key=self.api_key, option=option, format=output_format
         )
         return ZipCodeApiRequest(base_url, OPTIONS[option], output_format)
+
+
+class ZipCodeApiV2:
+    host: str = "www.zipcodeapi.com"
+
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+        self.con = HTTPSConnection(host=self.host)
+
+    def _make_api_call(
+        self,
+        option: str,
+        f: FormatEnum,
+        path: str,
+        country: CountryEnum = CountryEnum.US,
+        data_class: type | None = None,
+    ) -> DictReader | bytes | type | Element | Error:
+        base_url = f"rest/v2/CA" if country == CountryEnum.CA else f"rest"
+        self.con.request(
+            method="GET", url=f"/{base_url}/{self.api_key}/{option}.{f}/{path}"
+        )
+        response = self.con.getresponse()
+        success = response.status == 200
+        data = response.read()
+        if f == FormatEnum.JSON:
+            data = loads(data)
+            if success:
+                return data_class(**data) if data_class else data
+            return Error(**data)
+        elif f == FormatEnum.CSV:
+            return DictReader(StringIO(data.decode()), delimiter=",")
+        elif f == FormatEnum.XML:
+            if success:
+                return fromstring(data.decode())
+        return data
+
+    def distance(
+        self,
+        zip_code1: str,
+        zip_code2: str,
+        units: UnitEnum = UnitEnum.KM,
+        f: FormatEnum | None = FormatEnum.JSON,
+        country: CountryEnum = CountryEnum.US,
+    ) -> Distance | DictReader | Element:
+        """distance.<format>/<zip_code1>/<zip_code2>/<units>"""
+        return self._make_api_call(
+            "distance",
+            f,
+            path=f"{zip_code1}/{zip_code2}/{units}",
+            country=country,
+            data_class=Distance,
+        )
