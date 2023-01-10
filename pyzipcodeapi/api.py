@@ -114,22 +114,36 @@ class ZipCodeApiV2:
 
     def _api_call(
         self,
+        method: str,
         option: str,
         path: str,
-        data_class: type | None = None,
-        method: str = "GET",
         body: str | None = None,
-    ) -> DictReader | bytes | type | Element | Error:
+        headers: dict | None = None,
+    ):
         base_url = f"rest/v2/CA" if self.country == CountryEnum.CA else f"rest"
-        headers = {}
-        if method != "GET":
-            headers = {"Content-type": "application/x-www-form-urlencoded"}
         self.con.request(
             method=method,
             url=f"/{base_url}/{self.api_key}/{option}.{self.format}/{path}",
             body=body,
+            headers={} if headers is None else headers,
+        )
+
+    def _get(self, option: str, path: str):
+        self._api_call(method="GET", option=option, path=path)
+
+    def _post(self, option: str, path: str, data: dict):
+        headers = {"Content-type": "application/x-www-form-urlencoded"}
+        self._api_call(
+            method="POST",
+            option=option,
+            path=path,
+            body=urlencode(data),
             headers=headers,
         )
+
+    def parse_response(
+        self, data_class: type | None = None
+    ) -> DictReader | bytes | type | Element | Error:
         response = self.con.getresponse()
         success = response.status == 200
         data = response.read()
@@ -149,16 +163,16 @@ class ZipCodeApiV2:
         self, zip_code1: str, zip_code2: str, units: UnitEnum = UnitEnum.KM
     ) -> Distance | DictReader | Element:
         """distance.<format>/<zip_code1>/<zip_code2>/<units>"""
-        path = f"{zip_code1}/{zip_code2}/{units}"
-        return self._api_call("distance", path, data_class=Distance)
+        self._get("distance", f"{zip_code1}/{zip_code2}/{units}")
+        return self.parse_response(data_class=Distance)
 
     def multi_distance(
         self, zip_code: str, zip_codes: list[str], units: UnitEnum = UnitEnum.KM
     ) -> MultiDistance | DictReader | Element:
         """multi-distance.<format>/<zip_code>/<other_zip_codes>/<units>"""
         assert len(zip_codes) <= 100
-        path = f"{zip_code}/{','.join(zip_codes)}/{units}"
-        return self._api_call("multi-distance", path, data_class=MultiDistance)
+        self._get("multi-distance", f"{zip_code}/{','.join(zip_codes)}/{units}")
+        return self.parse_response(data_class=MultiDistance)
 
     def radius(
         self,
@@ -171,7 +185,8 @@ class ZipCodeApiV2:
         path = f"{zip_code}/{distance}/{units}"
         if minimal:
             path = f"{path}?minimal"
-        return self._api_call("radius", path, data_class=Radius)
+        self._get("radius", path)
+        return self.parse_response(data_class=Radius)
 
     def multi_radius(
         self,
@@ -185,12 +200,12 @@ class ZipCodeApiV2:
             raise ValueError
         path = f"{distance}/{units}"
         dc = MultiRadius
-        params = dict()
+        body = dict()
         if zip_codes:
             assert len(zip_codes) <= 100
-            params["zip_codes"] = "\n".join(zip_codes)
+            body["zip_codes"] = "\n".join(zip_codes)
         if addresses:
             assert len(addresses) <= 100
-            params["addrs"] = "\n".join(addresses)
-        body = urlencode(params)
-        return self._api_call("multi-radius", path, dc, method="POST", body=body)
+            body["addrs"] = "\n".join(addresses)
+        self._post("multi-radius", path, data=body)
+        return self.parse_response(data_class=MultiRadius)
