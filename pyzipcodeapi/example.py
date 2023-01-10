@@ -10,18 +10,16 @@ if __name__ == "__main__":
     ou = "degrees"
     obj = ZipCodeApi(API_KEY)
     # V2
-    zca = ZipCodeApiV2(api_key=API_KEY)
     f2 = FormatEnum.JSON
     u2 = UnitEnum.KM
     us = CountryEnum.US
     ca = CountryEnum.CA
+    zca = ZipCodeApiV2(api_key=API_KEY, f=f2, country=us)
     # https://www.zipcodeapi.com/rest/<api_key>/distance.<format>/<zip_code1>/<zip_code2>/<units>
-    print(
-        zca.distance(zip_code1="94106", zip_code2="94132", units=u2, f=f2, country=us)
-    )
+    print(zca.distance(zip_code1="94106", zip_code2="94132", units=u2))
     print("------------------")
     # https://www.zipcodeapi.com/rest/<api_key>/multi-distance.<format>/<zip_code>/<other_zip_codes>/<units>
-    print(zca.multi_distance(zip_code="94106", zip_codes=["94132"], units=u2, f=f2))
+    print(zca.multi_distance(zip_code="94106", zip_codes=["94132"], units=u2))
     print("------------------")
     # https://www.zipcodeapi.com/rest/<api_key>/radius.<format>/<zip_code>/<distance>/<units>
     print(zca.radius(zip_code="94120", distance=5, units=u2, minimal=False))

@@ -101,67 +101,64 @@ class ZipCodeApi:
 class ZipCodeApiV2:
     host: str = "www.zipcodeapi.com"
 
-    def __init__(self, api_key: str):
+    def __init__(
+        self,
+        api_key: str,
+        f: FormatEnum = FormatEnum.JSON,
+        country: CountryEnum = CountryEnum.US,
+    ):
         self.api_key = api_key
+        self.format = f
+        self.country = country
         self.con = HTTPSConnection(host=self.host)
 
     def _api_call(
         self,
         option: str,
-        f: FormatEnum,
         path: str,
         data_class: type | None = None,
-        country: CountryEnum = CountryEnum.US,
         method: str = "GET",
         body: str | None = None,
     ) -> DictReader | bytes | type | Element | Error:
-        base_url = f"rest/v2/CA" if country == CountryEnum.CA else f"rest"
+        base_url = f"rest/v2/CA" if self.country == CountryEnum.CA else f"rest"
         headers = {}
         if method != "GET":
             headers = {"Content-type": "application/x-www-form-urlencoded"}
         self.con.request(
-            method, f"/{base_url}/{self.api_key}/{option}.{f}/{path}", body, headers
+            method=method,
+            url=f"/{base_url}/{self.api_key}/{option}.{self.format}/{path}",
+            body=body,
+            headers=headers,
         )
         response = self.con.getresponse()
         success = response.status == 200
         data = response.read()
-        if f == FormatEnum.JSON:
+        if self.format == FormatEnum.JSON:
             data = loads(data)
             if success:
                 return data_class(**data) if data_class else data
             return Error(**data)
-        elif f == FormatEnum.CSV:
+        elif self.format == FormatEnum.CSV:
             return DictReader(StringIO(data.decode()), delimiter=",")
-        elif f == FormatEnum.XML:
+        elif self.format == FormatEnum.XML:
             if success:
                 return fromstring(data.decode())
         return data
 
     def distance(
-        self,
-        zip_code1: str,
-        zip_code2: str,
-        units: UnitEnum = UnitEnum.KM,
-        f: FormatEnum | None = FormatEnum.JSON,
-        country: CountryEnum = CountryEnum.US,
+        self, zip_code1: str, zip_code2: str, units: UnitEnum = UnitEnum.KM
     ) -> Distance | DictReader | Element:
         """distance.<format>/<zip_code1>/<zip_code2>/<units>"""
         path = f"{zip_code1}/{zip_code2}/{units}"
-        dc = Distance
-        return self._api_call("distance", f, path, dc, country=country)
+        return self._api_call("distance", path, data_class=Distance)
 
     def multi_distance(
-        self,
-        zip_code: str,
-        zip_codes: list[str],
-        units: UnitEnum = UnitEnum.KM,
-        f: FormatEnum | None = FormatEnum.JSON,
+        self, zip_code: str, zip_codes: list[str], units: UnitEnum = UnitEnum.KM
     ) -> MultiDistance | DictReader | Element:
         """multi-distance.<format>/<zip_code>/<other_zip_codes>/<units>"""
         assert len(zip_codes) <= 100
         path = f"{zip_code}/{','.join(zip_codes)}/{units}"
-        dc = MultiDistance
-        return self._api_call("multi-distance", f, path, dc)
+        return self._api_call("multi-distance", path, data_class=MultiDistance)
 
     def radius(
         self,
@@ -169,15 +166,12 @@ class ZipCodeApiV2:
         distance: int,
         minimal: bool = False,
         units: UnitEnum = UnitEnum.KM,
-        f: FormatEnum | None = FormatEnum.JSON,
-        country: CountryEnum = CountryEnum.US,
     ) -> Radius | DictReader | Element:
         """radius.<format>/<zip_code>/<distance>/<units>"""
         path = f"{zip_code}/{distance}/{units}"
-        dc = Radius
         if minimal:
             path = f"{path}?minimal"
-        return self._api_call("radius", f, path, dc, country=country)
+        return self._api_call("radius", path, data_class=Radius)
 
     def multi_radius(
         self,
@@ -185,7 +179,6 @@ class ZipCodeApiV2:
         zip_codes: list[str] | None = None,
         addresses: list[str] | None = None,
         units: UnitEnum = UnitEnum.KM,
-        f: FormatEnum | None = FormatEnum.JSON,
     ) -> MultiRadius | DictReader | Element:
         """multi-radius.<format>/<distance>/<units>"""
         if zip_codes is None and addresses is None:
@@ -200,4 +193,4 @@ class ZipCodeApiV2:
             assert len(addresses) <= 100
             params["addrs"] = "\n".join(addresses)
         body = urlencode(params)
-        return self._api_call("multi-radius", f, path, dc, method="POST", body=body)
+        return self._api_call("multi-radius", path, dc, method="POST", body=body)
