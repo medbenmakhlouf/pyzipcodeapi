@@ -198,8 +198,6 @@ class ZipCodeApiV2:
         """multi-radius.<format>/<distance>/<units>"""
         if zip_codes is None and addresses is None:
             raise ValueError
-        path = f"{distance}/{units}"
-        dc = MultiRadius
         body = dict()
         if zip_codes:
             assert len(zip_codes) <= 100
@@ -207,5 +205,5 @@ class ZipCodeApiV2:
         if addresses:
             assert len(addresses) <= 100
             body["addrs"] = "\n".join(addresses)
-        self._post("multi-radius", path, data=body)
+        self._post("multi-radius", f"{distance}/{units}", data=body)
         return self.parse_response(data_class=MultiRadius)
