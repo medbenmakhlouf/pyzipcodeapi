@@ -3,10 +3,11 @@ from http.client import HTTPSConnection
 from io import StringIO
 from json import loads
 from xml.etree.ElementTree import Element, fromstring
+from urllib.parse import urlencode
 
 import requests
 
-from pyzipcodeapi.dataclass import Distance, Error, MultiDistance, Radius
+from pyzipcodeapi.dataclass import Distance, Error, MultiDistance, Radius, MultiRadius
 from pyzipcodeapi.enums import FormatEnum, UnitEnum, CountryEnum
 from pyzipcodeapi.options import OPTIONS
 
@@ -111,10 +112,15 @@ class ZipCodeApiV2:
         path: str,
         data_class: type | None = None,
         country: CountryEnum = CountryEnum.US,
+        method: str = "GET",
+        body: str | None = None,
     ) -> DictReader | bytes | type | Element | Error:
         base_url = f"rest/v2/CA" if country == CountryEnum.CA else f"rest"
+        headers = {}
+        if method != "GET":
+            headers = {"Content-type": "application/x-www-form-urlencoded"}
         self.con.request(
-            method="GET", url=f"/{base_url}/{self.api_key}/{option}.{f}/{path}"
+            method, f"/{base_url}/{self.api_key}/{option}.{f}/{path}", body, headers
         )
         response = self.con.getresponse()
         success = response.status == 200
@@ -172,3 +178,25 @@ class ZipCodeApiV2:
         if minimal:
             path = f"{path}?minimal"
         return self._api_call("radius", f, path, dc, country=country)
+
+    def multi_radius(
+        self,
+        distance: int,
+        zip_codes: list[str] | None = None,
+        addresses: list[str] | None = None,
+        units: UnitEnum = UnitEnum.KM,
+        f: FormatEnum | None = FormatEnum.JSON,
+    ) -> MultiRadius | DictReader | Element:
+        """multi-radius.<format>/<distance>/<units>"""
+        assert len(zip_codes) <= 100
+        if zip_codes is None and addresses is None:
+            raise ValueError
+        path = f"{distance}/{units}"
+        dc = MultiRadius
+        params = dict()
+        if zip_codes:
+            params["zip_codes"] = "\n".join(zip_codes)
+        if addresses:
+            params["addrs"] = "\n".join(addresses)
+        body = urlencode(params)
+        return self._api_call("multi-radius", f, path, dc, method="POST", body=body)

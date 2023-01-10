@@ -34,3 +34,18 @@ class Radius:
         if self.zip_codes and type(self.zip_codes[0] == dict):
             return [RadiusInfo(**zp) for zp in self.zip_codes]
         return self.zip_codes
+
+
+@dataclass
+class MultiRadiusInfo:
+    base_zip_code: str
+    zip_codes: list[str]
+
+
+@dataclass
+class MultiRadius:
+    responses: list[dict]
+
+    @property
+    def info(self) -> list[MultiRadiusInfo]:
+        return [MultiRadiusInfo(**r) for r in self.responses]
