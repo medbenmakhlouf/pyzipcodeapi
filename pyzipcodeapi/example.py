@@ -1,4 +1,4 @@
-from pyzipcodeapi.api import ZipCodeApiV2
+from pyzipcodeapi.api import ZipCodeApi
 from pyzipcodeapi.enums import CountryEnum, DistanceUnitEnum, FormatEnum, GeoUnitEnum
 
 API_KEY = "DemoOnly00yDUhTAzyzlwpXrk6SuiuvD80IAvhCJowPjA5Cqgz9vb7QyIyzDE77r"
@@ -11,7 +11,7 @@ if __name__ == "__main__":
     ug = GeoUnitEnum.DEGREES
     us = CountryEnum.US
     ca = CountryEnum.CA
-    zca = ZipCodeApiV2(api_key=API_KEY, f=f2, country=us)
+    zca = ZipCodeApi(api_key=API_KEY, f=f2, country=us)
     # https://www.zipcodeapi.com/rest/<api_key>/distance.<format>/<zip_code1>/<zip_code2>/<units>
     print(zca.distance(zip_code1="94106", zip_code2="94132", units=ud))
     print("------------------")
