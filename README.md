@@ -1,16 +1,16 @@
 Py Zip Code API
 ===============================
 
-version number: 1.0.0
+version number: 2.0.0
 
 author: Mohamed Ben Makhlouf
 
-python version: > 2.7
+python version: >= 3.10
 
 Documentation
 --------
 
-link : http://pyzipcodeapi.readthedocs.io/en/v1.0.0/
+link : http://pyzipcodeapi.readthedocs.io/en/v2.0.0/
 
 Installation / Usage
 --------------------
@@ -28,4 +28,4 @@ Or clone the repo:
 Example
 -------
 
-http://pyzipcodeapi.readthedocs.io/en/v1.0.0/#example
+http://pyzipcodeapi.readthedocs.io/en/v2.0.0/#example
