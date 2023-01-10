@@ -188,15 +188,16 @@ class ZipCodeApiV2:
         f: FormatEnum | None = FormatEnum.JSON,
     ) -> MultiRadius | DictReader | Element:
         """multi-radius.<format>/<distance>/<units>"""
-        assert len(zip_codes) <= 100
         if zip_codes is None and addresses is None:
             raise ValueError
         path = f"{distance}/{units}"
         dc = MultiRadius
         params = dict()
         if zip_codes:
+            assert len(zip_codes) <= 100
             params["zip_codes"] = "\n".join(zip_codes)
         if addresses:
+            assert len(addresses) <= 100
             params["addrs"] = "\n".join(addresses)
         body = urlencode(params)
         return self._api_call("multi-radius", f, path, dc, method="POST", body=body)
