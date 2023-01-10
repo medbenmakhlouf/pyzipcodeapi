@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Welcome to Py Zip Code API’s documentation! &mdash; Py Zip Code API 1.0.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> Py Zip Code API
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to Py Zip Code API’s documentation!</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#options">Options</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#output">Output</a></li>
+<li><a class="reference internal" href="#contributing">Contributing</a></li>
+<li><a class="reference internal" href="#issues">Issues</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Py Zip Code API</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Welcome to Py Zip Code API’s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="welcome-to-py-zip-code-api-s-documentation">
+<h1>Welcome to Py Zip Code API’s documentation!<a class="headerlink" href="#welcome-to-py-zip-code-api-s-documentation" title="Permalink to this heading">¶</a></h1>
+<p>Py ZipCodeApi will make it easier for you to use the different options in <a class="reference external" href="https://www.zipcodeapi.com/API">ZipCodeAPI</a>.</p>
+</section>
+<section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
+<p>Use pip to install from PyPI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pyzipcodeapi</span>
+</pre></div>
+</div>
+<p>Register for free <code class="docutils literal notranslate"><span class="pre">api_key</span></code> <a class="reference external" href="https://www.zipcodeapi.com/Register">here</a>.</p>
+</section>
+<section id="options">
+<h1>Options<a class="headerlink" href="#options" title="Permalink to this heading">¶</a></h1>
+<p>As mentioned in the original website. the following options are supported in this package :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://www.zipcodeapi.com/API#distance">distance</a></p></li>
+<li><p><a class="reference external" href="https://www.zipcodeapi.com/API#multiZipDistance">multi-distance</a></p></li>
+<li><p><a class="reference external" href="https://www.zipcodeapi.com/API#radius">radius</a></p></li>
+<li><p><a class="reference external" href="https://www.zipcodeapi.com/API#multi-radius">multi-radius</a></p></li>
+<li><p><a class="reference external" href="https://www.zipcodeapi.com/API#matchClose">match-close</a></p></li>
+<li><p><a class="reference external" href="https://www.zipcodeapi.com/API#zipToLoc">info</a></p></li>
+<li><p><a class="reference external" href="https://www.zipcodeapi.com/API#multiZipToLoc">multi-info</a></p></li>
+<li><p><a class="reference external" href="https://www.zipcodeapi.com/API#locToZips">city-zips</a></p></li>
+<li><p><a class="reference external" href="https://www.zipcodeapi.com/API#stateToZips">state-zips</a></p></li>
+<li><p><a class="reference external" href="https://www.zipcodeapi.com/API#radiusSql">radius-sql</a></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="example">
+<h1>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># set different inputs</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="n">FormatEnum</span><span class="o">.</span><span class="n">JSON</span>
+<span class="n">ud</span> <span class="o">=</span> <span class="n">DistanceUnitEnum</span><span class="o">.</span><span class="n">KM</span>
+<span class="n">ug</span> <span class="o">=</span> <span class="n">GeoUnitEnum</span><span class="o">.</span><span class="n">DEGREES</span>
+<span class="n">us</span> <span class="o">=</span> <span class="n">CountryEnum</span><span class="o">.</span><span class="n">US</span>
+<span class="n">ca</span> <span class="o">=</span> <span class="n">CountryEnum</span><span class="o">.</span><span class="n">CA</span>
+<span class="n">zca</span> <span class="o">=</span> <span class="n">ZipCodeApi</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="n">f2</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="n">us</span><span class="p">)</span>
+<span class="c1"># https://www.zipcodeapi.com/rest/&lt;api_key&gt;/distance.&lt;format&gt;/&lt;zip_code1&gt;/&lt;zip_code2&gt;/&lt;units&gt;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">zca</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">zip_code1</span><span class="o">=</span><span class="s2">&quot;94106&quot;</span><span class="p">,</span> <span class="n">zip_code2</span><span class="o">=</span><span class="s2">&quot;94132&quot;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">ud</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+<span class="c1"># https://www.zipcodeapi.com/rest/&lt;api_key&gt;/multi-distance.&lt;format&gt;/&lt;zip_code&gt;/&lt;other_zip_codes&gt;/&lt;units&gt;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">zca</span><span class="o">.</span><span class="n">multi_distance</span><span class="p">(</span><span class="n">zip_code</span><span class="o">=</span><span class="s2">&quot;94106&quot;</span><span class="p">,</span> <span class="n">zip_codes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;94132&quot;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="n">ud</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+<span class="c1"># https://www.zipcodeapi.com/rest/&lt;api_key&gt;/radius.&lt;format&gt;/&lt;zip_code&gt;/&lt;distance&gt;/&lt;units&gt;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">zca</span><span class="o">.</span><span class="n">radius</span><span class="p">(</span><span class="n">zip_code</span><span class="o">=</span><span class="s2">&quot;94120&quot;</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">ud</span><span class="p">,</span> <span class="n">minimal</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+<span class="c1"># https://www.zipcodeapi.com/rest/&lt;api_key&gt;/multi-radius.&lt;format&gt;/&lt;zip_code&gt;/&lt;distance&gt;/&lt;units&gt;</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="n">zca</span><span class="o">.</span><span class="n">multi_radius</span><span class="p">(</span>
+        <span class="n">distance</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">zip_codes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;22911&quot;</span><span class="p">,</span> <span class="s2">&quot;22902&quot;</span><span class="p">],</span>
+        <span class="n">addresses</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1827 Glissade Ln, Charlottesville VA 22911&quot;</span><span class="p">],</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">ud</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+<span class="c1"># https://www.zipcodeapi.com/rest/&lt;api_key&gt;/match-close.&lt;format&gt;/&lt;zip_codes&gt;/&lt;distance&gt;/&lt;units&gt;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">zca</span><span class="o">.</span><span class="n">match_close</span><span class="p">(</span><span class="n">zip_codes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;22911&quot;</span><span class="p">,</span> <span class="s2">&quot;22902&quot;</span><span class="p">],</span> <span class="n">distance</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">ud</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+<span class="c1"># https://www.zipcodeapi.com/rest/&lt;api_key&gt;/info.&lt;format&gt;/&lt;zip_code&gt;/&lt;units&gt;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">zca</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">zip_code</span><span class="o">=</span><span class="s2">&quot;22911&quot;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">ug</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+<span class="c1"># https://www.zipcodeapi.com/rest/&lt;api_key&gt;/multi-info.&lt;format&gt;/&lt;zip_code&gt;/&lt;units&gt;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">zca</span><span class="o">.</span><span class="n">multi_info</span><span class="p">(</span><span class="n">zip_codes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;22911&quot;</span><span class="p">],</span> <span class="n">units</span><span class="o">=</span><span class="n">ug</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+<span class="c1"># https://www.zipcodeapi.com/rest/&lt;api_key&gt;/city-zips.&lt;format&gt;/&lt;city&gt;/&lt;state&gt;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">zca</span><span class="o">.</span><span class="n">city_zip_codes</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="s2">&quot;New York&quot;</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s2">&quot;VA&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+<span class="c1"># https://www.zipcodeapi.com/rest/&lt;api_key&gt;/state-zips.&lt;format&gt;/&lt;state&gt;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">zca</span><span class="o">.</span><span class="n">state_zip_codes</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s2">&quot;VA&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+<span class="c1"># https://www.zipcodeapi.com/rest/&lt;api_key&gt;/radius-sql.&lt;format&gt;/&lt;lat&gt;/&lt;long&gt;/&lt;lat_long_units&gt;/&lt;distance&gt;/&lt;units&gt;/</span>
+<span class="c1"># &lt;lat_field_name&gt;/&lt;long_field_name&gt;/&lt;precision&gt;</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="n">zca</span><span class="o">.</span><span class="n">radius_sql</span><span class="p">(</span>
+        <span class="n">lat</span><span class="o">=</span><span class="mf">37.722223</span><span class="p">,</span>
+        <span class="n">long</span><span class="o">=-</span><span class="mf">122.484048</span><span class="p">,</span>
+        <span class="n">lat_long_units</span><span class="o">=</span><span class="n">ug</span><span class="p">,</span>
+        <span class="n">distance</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">units</span><span class="o">=</span><span class="n">ud</span><span class="p">,</span>
+        <span class="n">lat_field_name</span><span class="o">=</span><span class="s2">&quot;lat&quot;</span><span class="p">,</span>
+        <span class="n">long_field_name</span><span class="o">=</span><span class="s2">&quot;long&quot;</span><span class="p">,</span>
+        <span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="output">
+<h1>Output<a class="headerlink" href="#output" title="Permalink to this heading">¶</a></h1>
+<p>for each request you make, you can choose between the different outputs :</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>json</p></li>
+<li><p>csv (the output is an instance from CSV Reader Objects <a class="reference external" href="https://docs.python.org/3/library/csv.html#csv.DictReader">DictReader</a>)</p></li>
+<li><p>xml</p></li>
+</ul>
+</div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Depend on the option you will choose, Please refer to the <a class="reference external" href="https://www.zipcodeapi.com/API">original website</a> to see the context of each output.</p>
+</div>
+</section>
+<section id="contributing">
+<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this heading">¶</a></h1>
+<p>To contribute to PyZipCodeAPI <a class="reference external" href="https://github.com/medbenmakhlouf/pyzipcodeapi">create a fork</a> on GitHub. Clone your fork, make some changes, and submit a pull request.</p>
+</section>
+<section id="issues">
+<h1>Issues<a class="headerlink" href="#issues" title="Permalink to this heading">¶</a></h1>
+<p>Use the GitHub <a class="reference external" href="https://github.com/medbenmakhlouf/pyzipcodeapi/issues">issue tracker</a> for PyZipCodeAPI to submit bugs, issues, and feature requests.</p>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2016, Mohamed Ben Makhlouf.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
