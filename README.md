@@ -24,7 +24,7 @@ Or clone the repo:
 
     $ git clone https://github.com/medbenmakhlouf/pyzipcodeapi.git
     $ python setup.py install
-    
+
 Example
 -------
 
