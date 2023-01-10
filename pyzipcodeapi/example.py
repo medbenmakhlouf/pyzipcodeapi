@@ -1,6 +1,7 @@
-from pyzipcodeapi.api import ZipCodeApi
+from pyzipcodeapi.api import ZipCodeApi, ZipCodeApiV2
+from pyzipcodeapi.enums import FormatEnum, UnitEnum, CountryEnum
 
-API_KEY = "3dAoRheoltlrRLipalNn8LkhJAh59P5c2GAUXOjjhEK9p2zAomYw7iORS5X1U2eX"
+API_KEY = "DemoOnly00yDUhTAzyzlwpXrk6SuiuvD80IAvhCJowPjA5Cqgz9vb7QyIyzDE77r"
 
 if __name__ == "__main__":
     # set different inputs
@@ -8,11 +9,20 @@ if __name__ == "__main__":
     u = "km"
     ou = "degrees"
     obj = ZipCodeApi(API_KEY)
-    #  https://www.zipcodeapi.com/rest/<api_key>/distance.<format>/<zip_code1>/<zip_code2>/<units>
-    print(obj.get("distance", f).filter(zip_code1="94106", zip_code2="94132", units=u))
+    # V2
+    zca = ZipCodeApiV2(api_key=API_KEY)
+    f2 = FormatEnum.JSON
+    u2 = UnitEnum.KM
+    us = CountryEnum.US
+    ca = CountryEnum.CA
+    # https://www.zipcodeapi.com/rest/<api_key>/distance.<format>/<zip_code1>/<zip_code2>/<units>
+    print(zca.distance(zip_code1="94106", zip_code2="94132", units=u2, f=f2, country=us))
+    print("------------------")
+    # https://www.zipcodeapi.com/rest/<api_key>/multi-distance.<format>/<zip_code>/<other_zip_codes>/<units>
+    print(zca.multi_distance(zip_code="94106", zip_codes=["94132"], units=u2, f=f2))
     print("------------------")
     # https://www.zipcodeapi.com/rest/<api_key>/radius.<format>/<zip_code>/<distance>/<units>
-    print(obj.get("radius", f).filter(zip_code="94120", distance="94132", units=u))
+    print(zca.radius(zip_code="94120", distance=5, units=u2, minimal=False))
     print("------------------")
     # https://www.zipcodeapi.com/rest/<api_key>/match-close.<format>/<zip_codes>/<distance>/<units>
     print(obj.get("match-close", f).filter(zip_codes="941asd32", distance="5", units=u))
