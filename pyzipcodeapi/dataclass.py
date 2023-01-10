@@ -49,3 +49,10 @@ class MultiRadius:
     @property
     def info(self) -> list[MultiRadiusInfo]:
         return [MultiRadiusInfo(**r) for r in self.responses]
+
+
+@dataclass
+class MatchClose:
+    zip_code1: str
+    zip_code2: str
+    distance: float

@@ -7,7 +7,7 @@ from urllib.parse import urlencode
 
 import requests
 
-from pyzipcodeapi.dataclass import Distance, Error, MultiDistance, Radius, MultiRadius
+from pyzipcodeapi.dataclass import Distance, Error, MultiDistance, Radius, MultiRadius, MatchClose
 from pyzipcodeapi.enums import FormatEnum, UnitEnum, CountryEnum
 from pyzipcodeapi.options import OPTIONS
 
@@ -143,14 +143,19 @@ class ZipCodeApiV2:
 
     def parse_response(
         self, data_class: type | None = None
-    ) -> DictReader | bytes | type | Element | Error:
+    ) -> DictReader | bytes | type | Element | Error | list[type]:
         response = self.con.getresponse()
         success = response.status == 200
         data = response.read()
         if self.format == FormatEnum.JSON:
             data = loads(data)
             if success:
-                return data_class(**data) if data_class else data
+                if data_class:
+                    if type(data) == dict:
+                        return data_class(**data)
+                    if type(data) == list:
+                        return [data_class(**d) for d in data]
+                return data
             return Error(**data)
         elif self.format == FormatEnum.CSV:
             return DictReader(StringIO(data.decode()), delimiter=",")
@@ -207,3 +212,10 @@ class ZipCodeApiV2:
             body["addrs"] = "\n".join(addresses)
         self._post("multi-radius", f"{distance}/{units}", data=body)
         return self.parse_response(data_class=MultiRadius)
+
+    def match_close(
+        self, zip_codes: list[str], distance: int, units: UnitEnum = UnitEnum.KM
+    ) -> list[MatchClose] | DictReader | Element:
+        """match-close.<format>/<zip_codes>/<distance>/<units>"""
+        self._get("match-close", f"{','.join(zip_codes)}/{distance}/{units}")
+        return self.parse_response(data_class=MatchClose)

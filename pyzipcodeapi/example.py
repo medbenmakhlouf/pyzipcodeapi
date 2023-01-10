@@ -35,10 +35,11 @@ if __name__ == "__main__":
     )
     print("------------------")
     # https://www.zipcodeapi.com/rest/<api_key>/match-close.<format>/<zip_codes>/<distance>/<units>
-    print(obj.get("match-close", f).filter(zip_codes="941asd32", distance="5", units=u))
-    print("------------------")
-    # https://www.zipcodeapi.com/rest/<api_key>/info.<format>/<zip_code>/<units>
-    print(obj.get("info", f).filter(zip_code="94132", units=ou))
+    print(
+        zca.match_close(
+            zip_codes=["22911", "22902", "22904", "22905"], distance=120, units=u2
+        )
+    )
     print("------------------")
     # https://www.zipcodeapi.com/rest/<api_key>/multi-info.<format>/<zip_code>/<units>
     print(obj.get("multi-info", f).filter(zip_code="94132", units=ou))
