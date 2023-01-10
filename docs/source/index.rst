@@ -4,9 +4,6 @@ Py ZipCodeApi will make it easier for you to use the different options in `ZipCo
 
 .. _ZipCodeAPI: https://www.zipcodeapi.com/API
 
-.. toctree::
-   :maxdepth: 1
-    :glob:
 
 Installation
 ============
