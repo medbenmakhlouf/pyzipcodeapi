@@ -10,3 +10,8 @@ class Error:
 @dataclass
 class Distance:
     distance: float
+
+
+@dataclass
+class MultiDistance:
+    distances: dict[str, float]

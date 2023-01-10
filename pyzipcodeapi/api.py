@@ -6,7 +6,7 @@ from xml.etree.ElementTree import Element, fromstring
 
 import requests
 
-from pyzipcodeapi.dataclass import Distance, Error
+from pyzipcodeapi.dataclass import Distance, Error, MultiDistance
 from pyzipcodeapi.enums import FormatEnum, UnitEnum, CountryEnum
 from pyzipcodeapi.options import OPTIONS
 
@@ -104,13 +104,13 @@ class ZipCodeApiV2:
         self.api_key = api_key
         self.con = HTTPSConnection(host=self.host)
 
-    def _make_api_call(
+    def _api_call(
         self,
         option: str,
         f: FormatEnum,
         path: str,
-        country: CountryEnum = CountryEnum.US,
         data_class: type | None = None,
+        country: CountryEnum = CountryEnum.US,
     ) -> DictReader | bytes | type | Element | Error:
         base_url = f"rest/v2/CA" if country == CountryEnum.CA else f"rest"
         self.con.request(
@@ -140,10 +140,19 @@ class ZipCodeApiV2:
         country: CountryEnum = CountryEnum.US,
     ) -> Distance | DictReader | Element:
         """distance.<format>/<zip_code1>/<zip_code2>/<units>"""
-        return self._make_api_call(
-            "distance",
-            f,
-            path=f"{zip_code1}/{zip_code2}/{units}",
-            country=country,
-            data_class=Distance,
-        )
+        path = f"{zip_code1}/{zip_code2}/{units}"
+        dc = Distance
+        return self._api_call("distance", f, path, dc, country=country)
+
+    def multi_distance(
+        self,
+        zip_code: str,
+        zip_codes: list[str],
+        units: UnitEnum = UnitEnum.KM,
+        f: FormatEnum | None = FormatEnum.JSON,
+    ) -> MultiDistance | DictReader | Element:
+        """multi-distance.<format>/<zip_code>/<other_zip_codes>/<units>"""
+        assert len(zip_codes) <= 100
+        path = f"{zip_code}/{','.join(zip_codes)}/{units}"
+        dc = MultiDistance
+        return self._api_call("multi-distance", f, path, dc)
