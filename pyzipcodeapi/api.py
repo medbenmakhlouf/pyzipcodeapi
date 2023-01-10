@@ -6,7 +6,7 @@ from xml.etree.ElementTree import Element, fromstring
 
 import requests
 
-from pyzipcodeapi.dataclass import Distance, Error, MultiDistance
+from pyzipcodeapi.dataclass import Distance, Error, MultiDistance, Radius
 from pyzipcodeapi.enums import FormatEnum, UnitEnum, CountryEnum
 from pyzipcodeapi.options import OPTIONS
 
@@ -156,3 +156,19 @@ class ZipCodeApiV2:
         path = f"{zip_code}/{','.join(zip_codes)}/{units}"
         dc = MultiDistance
         return self._api_call("multi-distance", f, path, dc)
+
+    def radius(
+        self,
+        zip_code: str,
+        distance: int,
+        minimal: bool = False,
+        units: UnitEnum = UnitEnum.KM,
+        f: FormatEnum | None = FormatEnum.JSON,
+        country: CountryEnum = CountryEnum.US,
+    ) -> Radius | DictReader | Element:
+        """radius.<format>/<zip_code>/<distance>/<units>"""
+        path = f"{zip_code}/{distance}/{units}"
+        dc = Radius
+        if minimal:
+            path = f"{path}?minimal"
+        return self._api_call("radius", f, path, dc, country=country)
