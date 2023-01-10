@@ -2,13 +2,21 @@ from csv import DictReader
 from http.client import HTTPSConnection
 from io import StringIO
 from json import loads
-from xml.etree.ElementTree import Element, fromstring
 from urllib.parse import urlencode
+from xml.etree.ElementTree import Element, fromstring
 
 import requests
 
-from pyzipcodeapi.dataclass import Distance, Error, MultiDistance, Radius, MultiRadius, MatchClose
-from pyzipcodeapi.enums import FormatEnum, UnitEnum, CountryEnum
+from pyzipcodeapi.dataclass import (
+    Distance,
+    Error,
+    MatchClose,
+    MultiDistance,
+    MultiRadius,
+    Radius,
+    Info,
+)
+from pyzipcodeapi.enums import CountryEnum, DistanceUnitEnum, FormatEnum, GeoUnitEnum
 from pyzipcodeapi.options import OPTIONS
 
 BASE_URL = "https://www.zipcodeapi.com/rest/{api_key}/{option}.{format}/"
@@ -120,7 +128,7 @@ class ZipCodeApiV2:
         body: str | None = None,
         headers: dict | None = None,
     ):
-        base_url = f"rest/v2/CA" if self.country == CountryEnum.CA else f"rest"
+        base_url = "rest/v2/CA" if self.country == CountryEnum.CA else "rest"
         self.con.request(
             method=method,
             url=f"/{base_url}/{self.api_key}/{option}.{self.format}/{path}",
@@ -141,7 +149,7 @@ class ZipCodeApiV2:
             headers=headers,
         )
 
-    def parse_response(
+    def _parse_response(
         self, data_class: type | None = None
     ) -> DictReader | bytes | type | Element | Error | list[type]:
         response = self.con.getresponse()
@@ -165,40 +173,46 @@ class ZipCodeApiV2:
         return data
 
     def distance(
-        self, zip_code1: str, zip_code2: str, units: UnitEnum = UnitEnum.KM
+        self,
+        zip_code1: str,
+        zip_code2: str,
+        units: DistanceUnitEnum = DistanceUnitEnum.KM,
     ) -> Distance | DictReader | Element:
         """distance.<format>/<zip_code1>/<zip_code2>/<units>"""
         self._get("distance", f"{zip_code1}/{zip_code2}/{units}")
-        return self.parse_response(data_class=Distance)
+        return self._parse_response(data_class=Distance)
 
     def multi_distance(
-        self, zip_code: str, zip_codes: list[str], units: UnitEnum = UnitEnum.KM
+        self,
+        zip_code: str,
+        zip_codes: list[str],
+        units: DistanceUnitEnum = DistanceUnitEnum.KM,
     ) -> MultiDistance | DictReader | Element:
         """multi-distance.<format>/<zip_code>/<other_zip_codes>/<units>"""
         assert len(zip_codes) <= 100
         self._get("multi-distance", f"{zip_code}/{','.join(zip_codes)}/{units}")
-        return self.parse_response(data_class=MultiDistance)
+        return self._parse_response(data_class=MultiDistance)
 
     def radius(
         self,
         zip_code: str,
         distance: int,
         minimal: bool = False,
-        units: UnitEnum = UnitEnum.KM,
+        units: DistanceUnitEnum = DistanceUnitEnum.KM,
     ) -> Radius | DictReader | Element:
         """radius.<format>/<zip_code>/<distance>/<units>"""
         path = f"{zip_code}/{distance}/{units}"
         if minimal:
             path = f"{path}?minimal"
         self._get("radius", path)
-        return self.parse_response(data_class=Radius)
+        return self._parse_response(data_class=Radius)
 
     def multi_radius(
         self,
         distance: int,
         zip_codes: list[str] | None = None,
         addresses: list[str] | None = None,
-        units: UnitEnum = UnitEnum.KM,
+        units: DistanceUnitEnum = DistanceUnitEnum.KM,
     ) -> MultiRadius | DictReader | Element:
         """multi-radius.<format>/<distance>/<units>"""
         if zip_codes is None and addresses is None:
@@ -211,11 +225,21 @@ class ZipCodeApiV2:
             assert len(addresses) <= 100
             body["addrs"] = "\n".join(addresses)
         self._post("multi-radius", f"{distance}/{units}", data=body)
-        return self.parse_response(data_class=MultiRadius)
+        return self._parse_response(data_class=MultiRadius)
 
     def match_close(
-        self, zip_codes: list[str], distance: int, units: UnitEnum = UnitEnum.KM
+        self,
+        zip_codes: list[str],
+        distance: int,
+        units: DistanceUnitEnum = DistanceUnitEnum.KM,
     ) -> list[MatchClose] | DictReader | Element:
         """match-close.<format>/<zip_codes>/<distance>/<units>"""
         self._get("match-close", f"{','.join(zip_codes)}/{distance}/{units}")
-        return self.parse_response(data_class=MatchClose)
+        return self._parse_response(data_class=MatchClose)
+
+    def info(
+        self, zip_code: str, units: GeoUnitEnum = GeoUnitEnum.DEGREES
+    ) -> Info | DictReader | Element:
+        """info.<format>/<zip_code>/<units>"""
+        self._get("info", f"{zip_code}/{units}")
+        return self._parse_response(data_class=Info)

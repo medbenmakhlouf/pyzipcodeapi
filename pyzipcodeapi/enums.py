@@ -7,9 +7,14 @@ class FormatEnum(str, Enum):
     CSV = "csv"
 
 
-class UnitEnum(str, Enum):
+class DistanceUnitEnum(str, Enum):
     KM = "km"
     MILE = "mile"
+
+
+class GeoUnitEnum(str, Enum):
+    DEGREES = "degrees"
+    RADIANS = "radians"
 
 
 class CountryEnum(str, Enum):

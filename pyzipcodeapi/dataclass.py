@@ -56,3 +56,17 @@ class MatchClose:
     zip_code1: str
     zip_code2: str
     distance: float
+
+
+
+
+@dataclass
+class Info:
+    zip_code: str
+    lat: float
+    lng: float
+    city: str
+    state: str
+    timezone: dict
+    acceptable_city_names: list[dict]
+    area_codes: list[int]
