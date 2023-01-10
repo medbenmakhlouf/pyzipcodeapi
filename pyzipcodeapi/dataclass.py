@@ -68,3 +68,8 @@ class Info:
     timezone: dict
     acceptable_city_names: list[dict]
     area_codes: list[int]
+
+
+@dataclass
+class ZipCode:
+    zip_codes: list[str]

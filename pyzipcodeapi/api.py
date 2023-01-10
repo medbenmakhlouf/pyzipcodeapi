@@ -2,7 +2,7 @@ from csv import DictReader
 from http.client import HTTPSConnection
 from io import StringIO
 from json import loads
-from urllib.parse import urlencode
+from urllib.parse import quote_plus, urlencode
 from xml.etree.ElementTree import Element, fromstring
 
 import requests
@@ -15,9 +15,12 @@ from pyzipcodeapi.dataclass import (
     MultiDistance,
     MultiRadius,
     Radius,
+    ZipCode,
 )
 from pyzipcodeapi.enums import CountryEnum, DistanceUnitEnum, FormatEnum, GeoUnitEnum
 from pyzipcodeapi.options import OPTIONS
+
+ResultType = DictReader | bytes | type | Element | Error | list[type]
 
 BASE_URL = "https://www.zipcodeapi.com/rest/{api_key}/{option}.{format}/"
 FORMAT = ["json", "xml", "csv"]
@@ -149,9 +152,7 @@ class ZipCodeApiV2:
             headers=headers,
         )
 
-    def _parse_response(
-        self, data_class: type | None = None
-    ) -> DictReader | bytes | type | Element | Error | list[type]:
+    def _parse_response(self, data_class: type | None = None) -> ResultType:
         response = self.con.getresponse()
         success = response.status == 200
         data = response.read()
@@ -250,3 +251,19 @@ class ZipCodeApiV2:
         """multi-info.<format>/<zip_code>/<units>"""
         self._get("multi-info", f"{','.join(zip_codes)}/{units}")
         return self._parse_response()
+
+    def city_zip_codes(
+        self, city: str, state: str
+    ) -> ZipCode | DictReader | Element:
+        """
+        US: city-zips.<format>/<city>/<state>
+        CA: city-postal-codes.<format>/<city>/<province>
+        """
+        option = "city-postal-codes" if self.country == CountryEnum.CA else "city-zips"
+        self._get(option, f"{quote_plus(city)}/{quote_plus(state)}")
+        return self._parse_response(data_class=ZipCode)
+
+    def state_zip_codes(self, state: str) -> ZipCode | DictReader | Element:
+        """state-zips.<format>/<state>"""
+        self._get("state-zips", f"{quote_plus(state)}")
+        return self._parse_response(data_class=ZipCode)

@@ -44,6 +44,12 @@ if __name__ == "__main__":
     # https://www.zipcodeapi.com/rest/<api_key>/multi-info.<format>/<zip_code>/<units>
     print(zca.multi_info(zip_codes=["22911"], units=ug))
     print("------------------")
+    # https://www.zipcodeapi.com/rest/<api_key>/city-zips.<format>/<city>/<state>
+    print(zca.city_zip_codes(city="New York", state="VA"))
+    print("------------------")
+    # https://www.zipcodeapi.com/rest/<api_key>/state-zips.<format>/<state>
+    print(zca.state_zip_codes(state="VA"))
+    print("------------------")
     # https://www.zipcodeapi.com/rest/<api_key>/radius-sql.<format>/<lat>/<long>/<lat_long_units>/<distance>/<units>/
     # <lat_field_name>/<long_field_name>/<precision>
     print(
