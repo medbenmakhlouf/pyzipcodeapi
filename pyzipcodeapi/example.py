@@ -1,5 +1,5 @@
 from pyzipcodeapi.api import ZipCodeApi, ZipCodeApiV2
-from pyzipcodeapi.enums import FormatEnum, UnitEnum, CountryEnum
+from pyzipcodeapi.enums import CountryEnum, DistanceUnitEnum, FormatEnum, GeoUnitEnum
 
 API_KEY = "DemoOnly00yDUhTAzyzlwpXrk6SuiuvD80IAvhCJowPjA5Cqgz9vb7QyIyzDE77r"
 
