@@ -10,11 +10,11 @@ import requests
 from pyzipcodeapi.dataclass import (
     Distance,
     Error,
+    Info,
     MatchClose,
     MultiDistance,
     MultiRadius,
     Radius,
-    Info,
 )
 from pyzipcodeapi.enums import CountryEnum, DistanceUnitEnum, FormatEnum, GeoUnitEnum
 from pyzipcodeapi.options import OPTIONS
@@ -243,3 +243,10 @@ class ZipCodeApiV2:
         """info.<format>/<zip_code>/<units>"""
         self._get("info", f"{zip_code}/{units}")
         return self._parse_response(data_class=Info)
+
+    def multi_info(
+        self, zip_codes: list[str], units: GeoUnitEnum = GeoUnitEnum.DEGREES
+    ) -> dict[str, dict] | DictReader | Element:
+        """multi-info.<format>/<zip_code>/<units>"""
+        self._get("multi-info", f"{','.join(zip_codes)}/{units}")
+        return self._parse_response()

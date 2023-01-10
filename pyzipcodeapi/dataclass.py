@@ -58,8 +58,6 @@ class MatchClose:
     distance: float
 
 
-
-
 @dataclass
 class Info:
     zip_code: str

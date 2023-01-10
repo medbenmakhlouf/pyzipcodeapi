@@ -36,13 +36,13 @@ if __name__ == "__main__":
     )
     print("------------------")
     # https://www.zipcodeapi.com/rest/<api_key>/match-close.<format>/<zip_codes>/<distance>/<units>
-    print(zca.match_close(zip_codes=["22911", "22902", "22904"], distance=90, units=ud))
+    print(zca.match_close(zip_codes=["22911", "22902"], distance=120, units=ud))
     print("------------------")
     # https://www.zipcodeapi.com/rest/<api_key>/info.<format>/<zip_code>/<units>
     print(zca.info(zip_code="22911", units=ug))
     print("------------------")
-    # https://www.zipcodeapi.com/rest/<api_key>/city-zips.<format>/<city>/<state>
-    print(obj.get("city-zips", f).filter(city="San Francisco", state="CA"))
+    # https://www.zipcodeapi.com/rest/<api_key>/multi-info.<format>/<zip_code>/<units>
+    print(zca.multi_info(zip_codes=["22911"], units=ug))
     print("------------------")
     # https://www.zipcodeapi.com/rest/<api_key>/radius-sql.<format>/<lat>/<long>/<lat_long_units>/<distance>/<units>/
     # <lat_field_name>/<long_field_name>/<precision>
